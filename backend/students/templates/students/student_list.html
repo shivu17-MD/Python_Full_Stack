@@ -1,37 +1,246 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Register</title>
+    <title>Registered Students</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+
+            background: linear-gradient(
+                135deg,
+                #141e30,
+                #243b55,
+                #4776a8
+            );
+
+            background-size: 300% 300%;
+            animation: gradientMove 8s ease infinite;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Circles */
+        .circle {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            animation: float 8s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .circle1 {
+            width: 180px;
+            height: 180px;
+            top: 10%;
+            left: 10%;
+        }
+
+        .circle2 {
+            width: 250px;
+            height: 250px;
+            bottom: 5%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .circle3 {
+            width: 100px;
+            height: 100px;
+            top: 65%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-40px);
+            }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1000px;
+            padding: 40px;
+
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 25px;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+
+            animation: slideUp 1.2s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: white;
+            font-size: 30px;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Table Wrapper */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+        }
+
+        /* Student Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: white;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(
+                45deg,
+                #ff512f,
+                #dd2476
+            );
+
+            padding: 16px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            transition: 0.3s;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffd369;
+        }
+
+        /* Empty Message */
+        .empty {
+            color: #ffd369;
+            font-weight: bold;
+            padding: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 15px;
+            }
+
+            h2 {
+                font-size: 23px;
+            }
+
+            th, td {
+                padding: 12px 10px;
+                font-size: 13px;
+                white-space: nowrap;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h2>Registered Students</h2>
 
-<table border="1">
+    <!-- Floating Circles -->
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
 
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Age</th>
-        <th>Department</th>
-    </tr>
+    <!-- Students Container -->
+    <div class="container">
 
-    {% for student in students %}
+        <h2>🎓 Registered Students</h2>
 
-    <tr>
-        <td>{{ student.name }}</td>
-        <td>{{ student.email }}</td>
-        <td>{{ student.age }}</td>
-        <td>{{ student.department }}</td>
-    </tr>
+        <div class="table-wrapper">
 
-    {% empty %}
+            <table>
 
-    <tr>
-        <td colspan="4">No students found</td>
-    </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Department</th>
+                </tr>
 
-    {% endfor %}
+                {% for student in students %}
+
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.email }}</td>
+                    <td>{{ student.age }}</td>
+                    <td>{{ student.department }}</td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="4" class="empty">
+                        No students found
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
 </body>
 </html>

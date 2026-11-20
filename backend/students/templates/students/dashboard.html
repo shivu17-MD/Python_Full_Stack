@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+
+            background: linear-gradient(
+                135deg,
+                #141e30,
+                #243b55,
+                #4776a8
+            );
+
+            background-size: 300% 300%;
+            animation: gradientMove 8s ease infinite;
+            overflow: hidden;
+        }
+
+        /* Background Animation */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Dashboard Card */
+        .dashboard {
+            width: 90%;
+            max-width: 450px;
+            padding: 50px 35px;
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 25px;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+
+            animation: slideUp 1.2s ease;
+            transition: transform 0.4s ease;
+        }
+
+        .dashboard:hover {
+            transform: translateY(-8px);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .username {
+            color: #ffd369;
+            font-size: 28px;
+            margin-bottom: 35px;
+            text-shadow: 0 0 15px rgba(255, 211, 105, 0.5);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #ffd369;
+            }
+            to {
+                text-shadow: 0 0 20px #ffd369,
+                             0 0 35px #ff9f43;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Logout Button */
+        button {
+            padding: 14px 40px;
+            border: none;
+            border-radius: 30px;
+
+            background: linear-gradient(
+                45deg,
+                #ff512f,
+                #dd2476
+            );
+
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+
+            box-shadow: 0 5px 20px rgba(221, 36, 118, 0.4);
+
+            transition: all 0.4s ease;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 81, 47, 0.6);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Floating Background Circles */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            animation: float 8s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .circle1 {
+            width: 180px;
+            height: 180px;
+            top: 10%;
+            left: 10%;
+        }
+
+        .circle2 {
+            width: 250px;
+            height: 250px;
+            bottom: 5%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .circle3 {
+            width: 100px;
+            height: 100px;
+            top: 65%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-40px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard {
+                padding: 40px 20px;
+            }
+
+            h2 {
+                font-size: 27px;
+            }
+
+            .username {
+                font-size: 23px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating Circles -->
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+
+        <h2>Welcome 🎓</h2>
+
+        <h2 class="username">
+            {{ user.username }}
+        </h2>
+
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout ↗</button>
+        </form>
+
+    </div>
+
+</body>
+</html>
